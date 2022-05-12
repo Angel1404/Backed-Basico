@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { dbConnection } = require('../database/config');
 class Server {
 
     constructor() {
@@ -10,6 +11,9 @@ class Server {
 
         //Para ser un poco mas claro en la ruta de la api que andamos usando, podemos definirla aqui en el constructor
         this.pathUsuariosApi = '/api/usuarios';
+
+        //Conectar a la base de datos
+        this.connectarDb();
 
         //Definiendo un middleware
         this.middlewares();
@@ -28,6 +32,10 @@ class Server {
         this.app.use(express.json());
 
         this.app.use(express.static('public'));
+    }
+
+    async connectarDb() {
+        await dbConnection();
     }
 
     //Metodo para las rutas
